@@ -2,3 +2,4 @@
 .env
 .env.test
 .next
+package-lock.json
