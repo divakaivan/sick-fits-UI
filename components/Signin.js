@@ -31,10 +31,10 @@ class Signin extends Component {
     render() {
         return (
             <Mutation refetchQueries={[{query: CURRENT_USER_QUERY}]} mutation={SIGNIN_MUTATION} variables={this.state}>
-                {(signup, {error, loading})=>{
+                {(signin, {error, loading})=>{
                     return <Form method="post" onSubmit={async (e)=>{
                         e.preventDefault();
-                        await signup();
+                        await signin();
                         this.setState({name: '', email: '', password: ''});
                     }
                     }>
