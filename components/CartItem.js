@@ -22,10 +22,10 @@ const CartItemStyles = styled.li`
 const CartItem = ({cartItem}) => {
     // first check if that item exists
     if (!cartItem.item) return (
-        <CartItemStyle>
+        <CartItemStyles>
             <p>This item has been removed!</p>
             <RemoveFromCart id={cartItem.id}/>
-        </CartItemStyle>
+        </CartItemStyles>
     );
 
     return (
