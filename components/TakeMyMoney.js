@@ -13,7 +13,7 @@ function totalItems(cart) {
     return cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0);
 }
 
-const CREATE_ORDER_MUTATION = gql`
+export const CREATE_ORDER_MUTATION = gql`
     mutation createOrder($token: String!) {
         createOrder(token: $token) {
             id
@@ -37,7 +37,7 @@ class TakeMyMoney extends React.Component {
             variables: {
                 token: res.id
             }
-        }).catch(err=>alert(err.message));
+        }).catch(err => alert(err.message));
         Router.push({
             pathname: "/order",
             query: {id: order.data.createOrder.id}
@@ -47,25 +47,30 @@ class TakeMyMoney extends React.Component {
     render() {
         return (
             <User>
-                {({data: {me}}) => (
-                    <Mutation mutation={CREATE_ORDER_MUTATION} refetchQueries={[{query: CURRENT_USER_QUERY}]}>
-                        {(createOrder) => (
+                {({data: {me}, loading}) => {
+                    if(loading) return null;
+                    return (
+                        (
+                            <Mutation mutation={CREATE_ORDER_MUTATION} refetchQueries={[{query: CURRENT_USER_QUERY}]}>
+                                {(createOrder) => (
 
-                            <StripeCheckout
-                                amount={calcTotalPrice(me.cart)}
-                                name="Sick Fits"
-                                description={`Order of ${totalItems(me.cart)} items`}
-                                image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
-                                stripeKey="pk_test_51HCmE9BiZYeN1Gv3wDGhkyMUs9rsFUtJD5ExlUfToLWvFaKJ6e30P4sERAf3gZ1M8SfVqlF5yeb87QQfdhRzz0en007B66Zaq3"
-                                currency="USD"
-                                email={me.email}
-                                token={res => this.onToken(res, createOrder)}
-                            >
-                                {this.props.children}
-                            </StripeCheckout>
-                        )}
-                    </Mutation>
-                )}
+                                    <StripeCheckout
+                                        amount={calcTotalPrice(me.cart)}
+                                        name="Sick Fits"
+                                        description={`Order of ${totalItems(me.cart)} items`}
+                                        image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
+                                        stripeKey="pk_test_51HCmE9BiZYeN1Gv3wDGhkyMUs9rsFUtJD5ExlUfToLWvFaKJ6e30P4sERAf3gZ1M8SfVqlF5yeb87QQfdhRzz0en007B66Zaq3"
+                                        currency="USD"
+                                        email={me.email}
+                                        token={res => this.onToken(res, createOrder)}
+                                    >
+                                        {this.props.children}
+                                    </StripeCheckout>
+                                )}
+                            </Mutation>
+                        )
+                    )
+                }}
             </User>
         );
     }

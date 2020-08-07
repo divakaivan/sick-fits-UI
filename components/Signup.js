@@ -6,7 +6,7 @@ import Error from "./ErrorMessage";
 import {CURRENT_USER_QUERY} from "./User";
 
 
-const SIGNUP_MUTATION = gql`
+export const SIGNUP_MUTATION = gql`
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
         signup(email: $email, name: $name, password: $password) {
             id
@@ -19,9 +19,9 @@ const SIGNUP_MUTATION = gql`
 class Signup extends Component {
     state = {
         name: '',
-        password: '',
-        email: ''
-    }
+        email: '',
+        password: ''
+    };
 
     saveToState = e => {
         this.setState({

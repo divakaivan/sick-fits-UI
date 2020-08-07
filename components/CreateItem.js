@@ -63,13 +63,12 @@ class CreateItem extends Component {
                 variables={this.state}
             >
                 {(createItem, {loading, error, called, data})=>(
-                    <Form onSubmit={async e=>{
+                    <Form data-test="form" onSubmit={async e=>{
                         // stop the form from submitting
                         e.preventDefault();
                         // call the mutation
                         const res = await createItem();
                         // change them to the single item page
-                        console.log(res);
                         Router.push({
                             pathname: '/item',
                             query: {id: res.data.createItem.id}
