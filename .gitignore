@@ -3,3 +3,4 @@
 .env.test
 .next
 package-lock.json
+.idea
